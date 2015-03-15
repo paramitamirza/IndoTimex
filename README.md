@@ -15,7 +15,7 @@ options: -o output_dir_name/file_name (default: dir_path/dir_name_Timex/ for dir
 ```   
 The output file(s) will be a TimeML document annotated with time expressions (with the TIMEX3 tag).
 
-###To convert TimeML file(s) to HTML for better viewing
+####To convert TimeML file(s) to HTML for better viewing
 ```
 python python convertToHTML.py dir_name [options]        or
 python python convertToHTML.py file_name [options]
