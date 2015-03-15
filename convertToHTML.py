@@ -10,8 +10,8 @@ def ensureDir(f):
         os.makedirs(d)
     
 def printUsage():
-    print "usage: python extractTimex.py dir_name [options]"
-    print "   or: python extractTimex.py file_name [options]"
+    print "usage: python convertToHTML.py dir_name [options]"
+    print "   or: python convertToHTML.py file_name [options]"
     print " "
     print "       options: -o output_dir_name/file_name (default: dir_path/dir_name_HTML/ for directory and file_path/file_name.html for file)"
     
