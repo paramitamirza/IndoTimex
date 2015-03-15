@@ -1,0 +1,9 @@
+#How to build FST with openfst
+fstcompile --isymbols=isyms.txt --osymbols=osyms.txt --keep_isymbols --keep_osymbols timex.fst binary.fst
+
+#How to draw FST with openfst
+fstdraw --isymbols=isyms.txt --osymbols=osyms.txt binary.fst timex.dot
+dot -Tps timex.dot >timex.ps
+
+#How to minimize FST with openfst
+fstminimize binary.fst binary_min.fst

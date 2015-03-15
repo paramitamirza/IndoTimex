@@ -1,0 +1,664 @@
+ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
+
+// ====================================================================================
+// expressions that appear in other places in the grammar but can sometimes be ignored
+// (if an expression occurs nowhere in the grammar, it does not need to be listed here)
+// ====================================================================================
+//[Nil] ||| . ||| ||| 1.0
+[Nil] ||| , ||| ||| 1.0
+[Nil] ||| - ||| ||| 1.0
+[Nil] ||| / ||| ||| 1.0
+[Nil] ||| ( ||| ||| 1.0
+[Nil] ||| ) ||| ||| 1.0
+[Nil] ||| ber ||| ||| 1.0
+[Nil] ||| nya ||| ||| 1.0
+[Nil] ||| di ||| ||| 1.0
+[Nil] ||| WIB ||| ||| 1.0
+[Nil] ||| WITA ||| ||| 1.0
+[Nil] ||| WIT ||| ||| 1.0
+
+// ====================================
+// expressions that identify an integer
+// ====================================
+[Int:1Digit] ||| se ||| 1 ||| 1.0
+[Int:1Digit] ||| satu ||| 1 ||| 1.0
+[Int:1Digit] ||| dua ||| 2 ||| 1.0
+[Int:1Digit] ||| tiga ||| 3 ||| 1.0
+[Int:1Digit] ||| empat ||| 4 ||| 1.0
+[Int:1Digit] ||| lima ||| 5 ||| 1.0
+[Int:1Digit] ||| enam ||| 6 ||| 1.0
+[Int:1Digit] ||| tujuh ||| 7 ||| 1.0
+[Int:1Digit] ||| delapan ||| 8 ||| 1.0
+[Int:1Digit] ||| sembilan ||| 9 ||| 1.0
+[Int:Teens] ||| [Int:1Digit] belas ||| 1 [Int:1Digit] ||| 1.0
+[Int:Tens] ||| [Int:1Digit] puluh ||| [Int:1Digit] ||| 1.0
+[Int:2Digit] ||| [Int:Teens] ||| [Int:Teens] ||| 1.0
+[Int:2Digit] ||| [Int:Tens] ||| [Int:Tens] 0 ||| 1.0
+[Int:2Digit] ||| [Int:Tens] [Int:1Digit] ||| [Int:Tens] [Int:1Digit] ||| 1.0
+[Int:Hundred2Digit] ||| ratus ||| 0 0 ||| 1.0
+[Int:Hundred2Digit] ||| ratus [Int:1Digit] ||| 0 [Int:1Digit] ||| 1.0
+[Int:Hundred2Digit] ||| ratus [Int:2Digit] ||| [Int:2Digit] ||| 1.0
+[Int:3Digit] ||| [Int:1Digit] [Int:Hundred2Digit] ||| [Int:1Digit] [Int:Hundred2Digit] ||| 1.0
+[Int:Thousand3Digit] ||| ribu ||| 0 0 0 ||| 1.0
+[Int:Thousand3Digit] ||| ribu [Int:1Digit] ||| 0 0 [Int:1Digit] ||| 1.0
+[Int:Thousand3Digit] ||| ribu [Int:2Digit] ||| 0 [Int:2Digit] ||| 1.0
+[Int:Thousand3Digit] ||| ribu [Int:3Digit] ||| [Int:3Digit] ||| 1.0
+[Int:4Digit] ||| [Int:Thousand3Digit] ||| 1 [Int:Thousand3Digit] ||| 1.0
+[Int:4Digit] ||| [Int:1Digit] [Int:Thousand3Digit] ||| [Int:1Digit] [Int:Thousand3Digit] ||| 1.0
+[Int:4Digit] ||| [Int:2Digit,1] [Int:2Digit,2] ||| [Int:2Digit,1] [Int:2Digit,2] ||| 1.0
+[Int] ||| [Int:1Digit] ||| [Int:1Digit] ||| 1.0
+[Int] ||| [Int:2Digit] ||| [Int:2Digit] ||| 1.0
+[Int] ||| [Int:3Digit] ||| [Int:3Digit] ||| 1.0
+[Int] ||| [Int:4Digit] ||| [Int:4Digit] ||| 1.0
+//Roman numerals for century
+[Int] ||| i ||| 1 ||| 1.0
+[Int] ||| ii ||| 2 ||| 1.0
+[Int] ||| iii ||| 3 ||| 1.0
+[Int] ||| iv ||| 4 ||| 1.0
+[Int] ||| v ||| 5 ||| 1.0
+[Int] ||| vi ||| 6 ||| 1.0
+[Int] ||| vii ||| 7 ||| 1.0
+[Int] ||| viii ||| 8 ||| 1.0
+[Int] ||| ix ||| 9 ||| 1.0
+[Int] ||| x ||| 1 0 ||| 1.0
+[Int] ||| xi ||| 1 1 ||| 1.0
+[Int] ||| xii ||| 1 2 ||| 1.0
+[Int] ||| xiii ||| 1 3 ||| 1.0
+[Int] ||| xiv ||| 1 4 ||| 1.0
+[Int] ||| xv ||| 1 5 ||| 1.0
+[Int] ||| xvi ||| 1 6 ||| 1.0
+[Int] ||| xvii ||| 1 7 ||| 1.0
+[Int] ||| xviii ||| 1 8 ||| 1.0
+[Int] ||| xix ||| 1 9 ||| 1.0
+[Int] ||| xx ||| 2 0 ||| 1.0
+[Int] ||| xxi ||| 2 1 ||| 1.0
+
+// =================================================
+// other common expressions that identify an integer
+// =================================================
+[Int] ||| [Int] pasang ||| Multiply [Int] 2 ||| 1.0
+[Int] ||| [Int] lusin ||| Multiply [Int] 12 ||| 1.0
+[Int] ||| [Int] kodi ||| Multiply [Int] 20 ||| 1.0
+
+// =========================================
+// expressions that identify a temporal unit
+// =========================================
+[Unit:Singular] ||| detik ||| SECONDS ||| 1.0
+[Unit:Singular] ||| menit ||| MINUTES ||| 1.0
+[Unit:Singular] ||| jam ||| HOURS ||| 1.0
+[Unit:Singular] ||| hari ||| DAYS ||| 1.0
+[Unit:Singular] ||| minggu ||| WEEKS ||| 1.0
+[Unit:Singular] ||| pekan ||| WEEKS ||| 1.0
+[Unit:Singular] ||| bulan ||| MONTHS ||| 1.0
+[Unit:Singular] ||| periode ||| QUARTER_YEARS ||| 1.0
+[Unit:Singular] ||| kuartal ||| QUARTER_YEARS ||| 1.0
+[Unit:Singular] ||| triwulan ||| QUARTER_YEARS ||| 1.0
+[Unit:Singular] ||| trimester ||| QUARTER_YEARS ||| 1.0
+//[Unit:Singular] ||| semester ||| SEMESTER ||| 1.0	//not yet supported
+[Unit:Singular] ||| tahun ||| YEARS ||| 1.0
+[Unit:Singular] ||| dekade ||| DECADES ||| 1.0
+[Unit:Singular] ||| abad ||| CENTURIES ||| 1.0
+[Unit] ||| [Unit:Singular] ||| [Unit:Singular] ||| 1.0
+[Unit:Plural] ||| [Unit:Singular,1] - [Unit:Singular,2] ||| [Unit:Singular,1] ||| 1.0
+[Unit:Plural] ||| beberapa [Unit:Singular] ||| [Unit:Singular] ||| 1.0
+[Unit] ||| [Unit:Plural] ||| [Unit:Plural] ||| 1.0
+
+// =========================================
+// expressions that identify a part of a day
+// =========================================
+[FieldValue:HourOfDay] ||| [Int:0-23] ||| HOUR_OF_DAY [Int:0-23] ||| 1.0
+[FieldValue:HourOfAMPM] ||| [Int:1-12] ||| HOUR_OF_AMPM [Int:1-12] ||| 1.0
+[FieldValue:MinuteOfHour] ||| [Int:0-59] ||| MINUTE_OF_HOUR [Int:0-59] ||| 1.0
+[FieldValue:SecondOfMinute] ||| [Int:0-59] ||| SECOND_OF_MINUTE [Int:0-59] ||| 1.0
+//[FieldValue:AMPMOfDay] ||| a . m ||| AMPM_OF_DAY 0 ||| 1.0
+//[FieldValue:AMPMOfDay] ||| am ||| AMPM_OF_DAY 0 ||| 1.0
+[FieldValue:AMPMOfDay] ||| pagi ||| AMPM_OF_DAY 0 ||| 1.0
+//[FieldValue:AMPMOfDay] ||| p . m ||| AMPM_OF_DAY 1 ||| 1.0
+//[FieldValue:AMPMOfDay] ||| pm ||| AMPM_OF_DAY 1 ||| 1.0
+[FieldValue:AMPMOfDay] ||| siang ||| AMPM_OF_DAY 1 ||| 1.0
+[FieldValue:AMPMOfDay] ||| sore ||| AMPM_OF_DAY 1 ||| 1.0
+[FieldValue:AMPMOfDay] ||| malam ||| AMPM_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| pagi ||| MORNING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| fajar ||| MORNING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| rekah fajar ||| MORNING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| subuh ||| MORNING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| subuh subuh ||| MORNING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| dini hari ||| MORNING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| pagi pagi ||| MORNING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| siang ||| AFTERNOON_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| siang siang ||| AFTERNOON_OF_DAY 1 ||| 1.0
+//sore: afternoon or evening? :D
+[FieldValue:PartOfDay] ||| sore ||| AFTERNOON_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| sore sore ||| AFTERNOON_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| petang ||| EVENING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| senja ||| EVENING_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| malam ||| NIGHT_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDay] ||| malam malam||| NIGHT_OF_DAY 1 ||| 1.0
+//[FieldValue:PartOfDay] ||| semalam ||| NIGHT_OF_DAY 1 ||| 1.0
+
+// ===========================================
+// expressions that identify a day of the week
+// ===========================================
+[FieldValue:DayOfWeek] ||| senin ||| DAY_OF_WEEK 1 ||| 1.0
+[FieldValue:DayOfWeek] ||| selasa ||| DAY_OF_WEEK 2 ||| 1.0
+[FieldValue:DayOfWeek] ||| rabu ||| DAY_OF_WEEK 3 ||| 1.0
+[FieldValue:DayOfWeek] ||| kamis ||| DAY_OF_WEEK 4 ||| 1.0
+[FieldValue:DayOfWeek] ||| jumat ||| DAY_OF_WEEK 5 ||| 1.0
+[FieldValue:DayOfWeek] ||| sabtu ||| DAY_OF_WEEK 6 ||| 1.0
+[FieldValue:DayOfWeek] ||| mingguhari ||| DAY_OF_WEEK 7 ||| 1.0
+[FieldValue:DayOfWeek] ||| sen ||| DAY_OF_WEEK 1 ||| 1.0
+[FieldValue:DayOfWeek] ||| sel ||| DAY_OF_WEEK 2 ||| 1.0
+[FieldValue:DayOfWeek] ||| rab ||| DAY_OF_WEEK 3 ||| 1.0
+[FieldValue:DayOfWeek] ||| kam ||| DAY_OF_WEEK 4 ||| 1.0
+[FieldValue:DayOfWeek] ||| jum ||| DAY_OF_WEEK 5 ||| 1.0
+[FieldValue:DayOfWeek] ||| sab ||| DAY_OF_WEEK 6 ||| 1.0
+[FieldValue:DayOfWeek] ||| ming ||| DAY_OF_WEEK 7 ||| 1.0
+
+// =============================================
+// expressions that identify a weekend of a week
+// =============================================
+[FieldValue:WeekendOfWeek] ||| akhir minggu ||| WEEKEND_OF_WEEK 1 ||| 1.0
+[FieldValue:WeekendOfWeek] ||| akhir pekan ||| WEEKEND_OF_WEEK 1 ||| 1.0
+[FieldValue:WeekendOfWeek] ||| weekend ||| WEEKEND_OF_WEEK 1 ||| 1.0
+
+// ==========================================
+// expressions that identify a day of a month
+// ==========================================
+[FieldValue:NumericDayOfMonth] ||| [Int:1-31] ||| DAY_OF_MONTH [Int:1-31] ||| 1.0
+[FieldValue:NumericDayOfMonth] ||| tanggal [Int:1-31] ||| DAY_OF_MONTH [Int:1-31] ||| 1.0
+[FieldValue:NumericDayOfMonth] ||| [Int:1Digit] ||| DAY_OF_MONTH [Int:1Digit] ||| 1.0
+[FieldValue:NumericDayOfMonth] ||| [Int:2Digit] ||| DAY_OF_MONTH [Int:2Digit] ||| 1.0
+[FieldValue:NumericDayOfMonth] ||| tanggal [Int:1Digit] ||| DAY_OF_MONTH [Int:1Digit] ||| 1.0
+[FieldValue:NumericDayOfMonth] ||| tanggal [Int:2Digit] ||| DAY_OF_MONTH [Int:2Digit] ||| 1.0
+
+// =============================================
+// expressions that identify a month of the year
+// =============================================
+[FieldValue:MonthOfYear] ||| januari ||| MONTH_OF_YEAR 1 ||| 1.0
+[FieldValue:MonthOfYear] ||| februari ||| MONTH_OF_YEAR 2 ||| 1.0
+[FieldValue:MonthOfYear] ||| maret ||| MONTH_OF_YEAR 3 ||| 1.0
+[FieldValue:MonthOfYear] ||| april ||| MONTH_OF_YEAR 4 ||| 1.0
+[FieldValue:MonthOfYear] ||| mei ||| MONTH_OF_YEAR 5 ||| 1.0
+[FieldValue:MonthOfYear] ||| juni ||| MONTH_OF_YEAR 6 ||| 1.0
+[FieldValue:MonthOfYear] ||| juli ||| MONTH_OF_YEAR 7 ||| 1.0
+[FieldValue:MonthOfYear] ||| agustus ||| MONTH_OF_YEAR 8 ||| 1.0
+[FieldValue:MonthOfYear] ||| september ||| MONTH_OF_YEAR 9 ||| 1.0
+[FieldValue:MonthOfYear] ||| oktober ||| MONTH_OF_YEAR 10 ||| 1.0
+[FieldValue:MonthOfYear] ||| november ||| MONTH_OF_YEAR 11 ||| 1.0
+[FieldValue:MonthOfYear] ||| desember ||| MONTH_OF_YEAR 12 ||| 1.0
+[FieldValue:MonthOfYear] ||| jan ||| MONTH_OF_YEAR 1 ||| 1.0
+[FieldValue:MonthOfYear] ||| feb ||| MONTH_OF_YEAR 2 ||| 1.0
+[FieldValue:MonthOfYear] ||| mar ||| MONTH_OF_YEAR 3 ||| 1.0
+[FieldValue:MonthOfYear] ||| apr ||| MONTH_OF_YEAR 4 ||| 1.0
+[FieldValue:MonthOfYear] ||| mei ||| MONTH_OF_YEAR 5 ||| 1.0
+[FieldValue:MonthOfYear] ||| jun ||| MONTH_OF_YEAR 6 ||| 1.0
+[FieldValue:MonthOfYear] ||| jul ||| MONTH_OF_YEAR 7 ||| 1.0
+[FieldValue:MonthOfYear] ||| agu ||| MONTH_OF_YEAR 8 ||| 1.0
+[FieldValue:MonthOfYear] ||| sep ||| MONTH_OF_YEAR 9 ||| 1.0
+[FieldValue:MonthOfYear] ||| sept ||| MONTH_OF_YEAR 9 ||| 1.0
+[FieldValue:MonthOfYear] ||| okt ||| MONTH_OF_YEAR 10 ||| 1.0
+[FieldValue:MonthOfYear] ||| nov ||| MONTH_OF_YEAR 11 ||| 1.0
+[FieldValue:MonthOfYear] ||| des ||| MONTH_OF_YEAR 12 ||| 1.0
+[FieldValue:NumericMonthOfYear] ||| [Int:1-12] ||| MONTH_OF_YEAR [Int:1-12] ||| 1.0
+[FieldValue:NumericMonthOfYear] ||| bulan [Int:1-12] ||| MONTH_OF_YEAR [Int:1-12] ||| 1.0
+[FieldValue:NumericMonthOfYear] ||| bulan [Int:1Digit] ||| MONTH_OF_YEAR [Int:1Digit] ||| 1.0
+[FieldValue:NumericMonthOfYear] ||| bulan [Int:2Digit] ||| MONTH_OF_YEAR [Int:2Digit] ||| 1.0
+
+// ======================================================
+// expressions that identify a fiscal quarter of the year
+// ======================================================
+[FieldValue:QuarterOfYear] ||| kuartal pertama ||| QUARTER_OF_YEAR 1 ||| 1.0
+[FieldValue:QuarterOfYear] ||| kuartal [Int] ||| QUARTER_OF_YEAR [Int] ||| 1.0
+[FieldValue:QuarterOfYear] ||| kuartal ke [Int] ||| QUARTER_OF_YEAR [Int] ||| 1.0
+[FieldValue:QuarterOfYear] ||| kuartal terakhir ||| QUARTER_OF_YEAR 4 ||| 1.0
+[FieldValue:QuarterOfYear] ||| triwulan pertama ||| QUARTER_OF_YEAR 1 ||| 1.0
+[FieldValue:QuarterOfYear] ||| triwulan [Int] ||| QUARTER_OF_YEAR [Int] ||| 1.0
+[FieldValue:QuarterOfYear] ||| triwulan ke [Int] ||| QUARTER_OF_YEAR [Int] ||| 1.0
+[FieldValue:QuarterOfYear] ||| triwulan terakhir ||| QUARTER_OF_YEAR 4 ||| 1.0
+[FieldValue:QuarterOfYear] ||| trimester pertama ||| QUARTER_OF_YEAR 1 ||| 1.0
+[FieldValue:QuarterOfYear] ||| trimester [Int] ||| QUARTER_OF_YEAR 1 ||| 1.0
+[FieldValue:QuarterOfYear] ||| trimester ke [Int] ||| QUARTER_OF_YEAR [Int] ||| 1.0
+[FieldValue:QuarterOfYear] ||| trimester terakhir ||| QUARTER_OF_YEAR 4 ||| 1.0
+
+//[FieldValue:WeekOfMonth] ||| minggu pertama ||| WEEK_OF_MONTH 1 ||| 1.0
+//[FieldValue:WeekOfMonth] ||| minggu ke [Int] ||| WEEK_OF_MONTH [Int] ||| 1.0
+//[FieldValue:WeekOfMonth] ||| minggu terakhir ||| WEEK_OF_MONTH 4 ||| 1.0
+
+// ==============================================
+// expressions that identify a season of the year
+// ==============================================
+[FieldValue:SeasonOfYear] ||| musim semi ||| SPRING_OF_YEAR 1 ||| 1.0
+[FieldValue:SeasonOfYear] ||| musim panas ||| SUMMER_OF_YEAR 1 ||| 1.0
+[FieldValue:SeasonOfYear] ||| musim gugur ||| FALL_OF_YEAR 1 ||| 1.0
+[FieldValue:SeasonOfYear] ||| musim dingin ||| WINTER_OF_YEAR 1 ||| 1.0
+[FieldValue:SeasonOfYear] ||| musim salju ||| WINTER_OF_YEAR 1 ||| 1.0
+[FieldValue:SeasonOfYear] ||| musim hujan ||| WINTER_OF_YEAR 1 ||| 1.0
+[FieldValue:SeasonOfYear] ||| musim penghujan ||| WINTER_OF_YEAR 1 ||| 1.0
+[FieldValue:SeasonOfYear] ||| musim kemarau ||| SUMMER_OF_YEAR 1 ||| 1.0
+
+// =======================================
+// expressions that identify a time of day
+// =======================================
+[FieldValue:Time] ||| tengah hari ||| ( FieldValue:HourOfDay HOUR_OF_DAY 12 ) ( FieldValue:MinuteOfHour MINUTE_OF_HOUR 0 ) ||| 1.0
+[FieldValue:Time] ||| [FieldValue:HourOfDay] . [FieldValue:MinuteOfHour] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] ||| 1.0
+[FieldValue:Time] ||| [FieldValue:HourOfDay] . [FieldValue:MinuteOfHour] . [FieldValue:SecondOfMinute] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] [FieldValue:SecondOfMinute] ||| 1.0
+[FieldValue:Time] ||| [FieldValue:HourOfAMPM] . [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| 1.0
+[FieldValue:Time] ||| [FieldValue:HourOfDay] : [FieldValue:MinuteOfHour] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] ||| 1.0
+[FieldValue:Time] ||| [FieldValue:HourOfDay] : [FieldValue:MinuteOfHour] : [FieldValue:SecondOfMinute] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] [FieldValue:SecondOfMinute] ||| 1.0
+[FieldValue:Time] ||| [FieldValue:HourOfAMPM] : [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| 1.0
+[FieldValue:Time] ||| [FieldValue:HourOfAMPM] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] ( FieldValue MINUTE_OF_HOUR 0 ) [FieldValue:AMPMOfDay] ||| 1.0
+[FieldValue:Time] ||| pukul [FieldValue:HourOfDay] ||| [FieldValue:HourOfDay] ( FieldValue MINUTE_OF_HOUR 0 ) ||| 1.0
+[FieldValue:Time] ||| pukul [FieldValue:HourOfDay] . [FieldValue:MinuteOfHour] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] ||| 1.0
+[FieldValue:Time] ||| pukul [FieldValue:HourOfDay] . [FieldValue:MinuteOfHour] . [FieldValue:SecondOfMinute] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] [FieldValue:SecondOfMinute] ||| 1.0
+[FieldValue:Time] ||| pukul [FieldValue:HourOfAMPM] . [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| 1.0
+[FieldValue:Time] ||| pukul [FieldValue:HourOfDay] : [FieldValue:MinuteOfHour] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] ||| 1.0
+[FieldValue:Time] ||| pukul [FieldValue:HourOfDay] : [FieldValue:MinuteOfHour] : [FieldValue:SecondOfMinute] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] [FieldValue:SecondOfMinute] ||| 1.0
+[FieldValue:Time] ||| pukul [FieldValue:HourOfAMPM] : [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| 1.0
+[FieldValue:Time] ||| pukul [FieldValue:HourOfAMPM] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] ( FieldValue MINUTE_OF_HOUR 0 ) [FieldValue:AMPMOfDay] ||| 1.0
+[FieldValue:Time] ||| jam [FieldValue:HourOfDay] ||| [FieldValue:HourOfDay] ( FieldValue MINUTE_OF_HOUR 0 ) ||| 1.0
+[FieldValue:Time] ||| jam [FieldValue:HourOfDay] . [FieldValue:MinuteOfHour] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] ||| 1.0
+[FieldValue:Time] ||| jam [FieldValue:HourOfDay] . [FieldValue:MinuteOfHour] . [FieldValue:SecondOfMinute] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] [FieldValue:SecondOfMinute] ||| 1.0
+[FieldValue:Time] ||| jam [FieldValue:HourOfAMPM] . [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| 1.0
+[FieldValue:Time] ||| jam [FieldValue:HourOfDay] : [FieldValue:MinuteOfHour] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] ||| 1.0
+[FieldValue:Time] ||| jam [FieldValue:HourOfDay] : [FieldValue:MinuteOfHour] : [FieldValue:SecondOfMinute] ||| [FieldValue:HourOfDay] [FieldValue:MinuteOfHour] [FieldValue:SecondOfMinute] ||| 1.0
+[FieldValue:Time] ||| jam [FieldValue:HourOfAMPM] : [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] [FieldValue:MinuteOfHour] [FieldValue:AMPMOfDay] ||| 1.0
+[FieldValue:Time] ||| jam [FieldValue:HourOfAMPM] [FieldValue:AMPMOfDay] ||| [FieldValue:HourOfAMPM] ( FieldValue MINUTE_OF_HOUR 0 ) [FieldValue:AMPMOfDay] ||| 1.0
+
+// ==============================================
+// expressions that identify specially named days
+// ==============================================
+[FieldValue:NamedDay] ||| thanksgiving ||| ( FieldValue DAY_OF_WEEK 4 ) ( FieldValue MONTH_OF_YEAR 11 ) ( FieldValue ALIGNED_WEEK_OF_MONTH 4 ) ||| 1.0
+[FieldValue:NamedDay] ||| natal ||| ( FieldValue MONTH_OF_YEAR 12 ) ( FieldValue DAY_OF_MONTH 25 ) ||| 1.0
+[FieldValue:NamedDay] ||| tahun baru ||| ( FieldValue MONTH_OF_YEAR 1 ) ( FieldValue DAY_OF_MONTH 1 ) ||| 1.0
+[FieldValue:NamedDay] ||| akhir tahun ||| ( FieldValue MONTH_OF_YEAR 12 ) ( FieldValue DAY_OF_MONTH 31 ) ||| 1.0
+[FieldValue:NamedDay] ||| malam akhir tahun ||| ( FieldValue MONTH_OF_YEAR 12 ) ( FieldValue DAY_OF_MONTH 31 ) ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
+[FieldValue:NamedDay] ||| malam tahun baru ||| ( FieldValue MONTH_OF_YEAR 12 ) ( FieldValue DAY_OF_MONTH 31 ) ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
+[FieldValue:NamedDay] ||| paskah ||| EASTER_DAY_OF_YEAR 1 ||| 1.0
+//[FieldValue:NamedDay] ||| election ||| ( FieldValue DAY_OF_WEEK 2 ) ( FieldValue MONTH_OF_YEAR 11 ) ( FieldValue ALIGNED_WEEK_OF_MONTH 1 ) ||| 1.0
+
+// ================================================
+// expressions that identify both a month and a day
+// ================================================
+[FieldValue:MonthDay] ||| [FieldValue:NamedDay] ||| [FieldValue:NamedDay] ||| 1.0
+[FieldValue:MonthDay] ||| [FieldValue:DayOfMonth] [FieldValue:MonthOfYear] ||| [FieldValue:MonthOfYear] [FieldValue:DayOfMonth] ||| 1.0
+[FieldValue:MonthDay] ||| [FieldValue:NumericDayOfMonth] [FieldValue:MonthOfYear] ||| [FieldValue:MonthOfYear] [FieldValue:NumericDayOfMonth] ||| 1.0
+[FieldValue:MonthDay] ||| [FieldValue:NumericDayOfMonth] [FieldValue:NumericMonthOfYear] ||| [FieldValue:NumericMonthOfYear] [FieldValue:NumericDayOfMonth] ||| 1.0
+[FieldValue:MonthDay] ||| [FieldValue:DayOfWeek] [FieldValue:NumericDayOfMonth] [FieldValue:MonthOfYear] ||| [FieldValue:MonthOfYear] [FieldValue:NumericDayOfMonth] ||| 1.0
+[FieldValue:MonthDay] ||| [FieldValue:DayOfWeek] [FieldValue:NumericDayOfMonth] [FieldValue:NumericMonthOfYear] ||| [FieldValue:NumericMonthOfYear] [FieldValue:NumericDayOfMonth] ||| 1.0
+[FieldValue:MonthDay] ||| [FieldValue:DayOfWeek] [Int:1Digit] [FieldValue:MonthOfYear] ||| [FieldValue:MonthOfYear] ( FieldValue DAY_OF_MONTH [Int:1Digit] ) ||| 1.0
+[FieldValue:MonthDay] ||| [FieldValue:DayOfWeek] [Int:2Digit] [FieldValue:MonthOfYear] ||| [FieldValue:MonthOfYear] ( FieldValue DAY_OF_MONTH [Int:2Digit] ) ||| 1.0
+
+// ===========================================================
+// combinations of time fields that don't fully specify a time
+// ===========================================================
+[FieldValue:PartialYear] ||| [Int:0-99] ||| YEAR_OF_CENTURY [Int:0-99] ||| 1.0
+[FieldValue:PartialYear] ||| ' [Int:0-99] ||| YEAR_OF_CENTURY [Int:0-99] ||| 1.0
+[FieldValue:PartialTime] ||| [FieldValue:Time] ||| [FieldValue:Time] ||| 1.0
+[FieldValue:PartialTime] ||| [FieldValue:PartOfDay] ||| [FieldValue:PartOfDay] ||| 1.0
+[FieldValue:PartialTime] ||| [FieldValue:PartOfDay] hari ||| [FieldValue:PartOfDay] ||| 1.0
+[FieldValue:PartialTime] ||| [FieldValue:PartOfDay] sekali ||| [FieldValue:PartOfDay] ||| 1.0
+[FieldValue:PartialYearMonthDay] ||| [FieldValue:DayOfWeek] ||| [FieldValue:DayOfWeek] ||| 1.0
+[FieldValue:PartialYearMonthDay] ||| hari [FieldValue:DayOfWeek] ||| [FieldValue:DayOfWeek] ||| 1.0
+[FieldValue:PartialYearMonthDay] ||| [FieldValue:MonthDay] ||| [FieldValue:MonthDay] ||| 1.0
+[FieldValue:PartialYearMonthDay] ||| bulan [FieldValue:MonthDay] ||| [FieldValue:MonthDay] ||| 1.0
+[FieldValue:PartialYearMonthDay] ||| [FieldValue:MonthDay] [FieldValue:PartialYear] ||| [FieldValue:PartialYear] [FieldValue:MonthDay] ||| 1.0
+[FieldValue:PartialYearMonthDay] ||| [FieldValue:PartialYear] [FieldValue:MonthDay] ||| [FieldValue:PartialYear] [FieldValue:MonthDay] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:PartialTime] ||| [FieldValue:PartialTime] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:PartialYearMonthDay] ||| [FieldValue:PartialYearMonthDay] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:PartialYearMonthDay] [FieldValue:PartialTime] ||| [FieldValue:PartialYearMonthDay] [FieldValue:PartialTime] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:PartialTime] [FieldValue:PartialYearMonthDay] ||| [FieldValue:PartialYearMonthDay] [FieldValue:PartialTime] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:WeekendOfWeek] ||| [FieldValue:WeekendOfWeek] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:Month] ||| [FieldValue:Month] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:MonthOfYear] ||| [FieldValue:MonthOfYear] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:NumericMonthOfYear] ||| [FieldValue:NumericMonthOfYear] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:SeasonOfYear] ||| [FieldValue:SeasonOfYear] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:QuarterOfYear] ||| [FieldValue:QuarterOfYear] ||| 1.0
+[FieldValue:Partial] ||| [FieldValue:WeekOfMonth] ||| [FieldValue:WeekOfMonth] ||| 1.0
+// e.g. "malam Minggu" --> "Sabtu malam"
+[FieldValue:Partial] ||| malam [FieldValue:DayOfWeek] ||| FindEarlier PRESENT [FieldValue:DayOfWeek] ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
+
+// ===============================================================
+// combinations of time fields that fully specify an absolute time
+// ===============================================================
+[FieldValue:Year] ||| [Int:1000-9999] ||| YEAR [Int:1000-9999] ||| 1.0
+[FieldValue:Year] ||| [Int:4Digit] ||| YEAR [Int:4Digit] ||| 1.0
+// e.g. "tahun 2000"
+[FieldValue:Year] ||| tahun [FieldValue:Year] ||| [FieldValue:Year] ||| 1.0
+[FieldValue:YearMonth] ||| [FieldValue:MonthOfYear] [FieldValue:Year] ||| [FieldValue:Year] [FieldValue:MonthOfYear] ||| 1.0
+[FieldValue:YearMonth] ||| [FieldValue:Year] [FieldValue:MonthOfYear] ||| [FieldValue:Year] [FieldValue:MonthOfYear] ||| 1.0
+[FieldValue:YearMonthDay] ||| [FieldValue:Year] [FieldValue:MonthDay] ||| [FieldValue:Year] [FieldValue:MonthDay] ||| 1.0
+[FieldValue:YearMonthDay] ||| [FieldValue:MonthDay] [FieldValue:Year] ||| [FieldValue:Year] [FieldValue:MonthDay] ||| 1.0
+[FieldValue:Absolute] ||| [FieldValue:Year] ||| [FieldValue:Year] ||| 1.0
+[FieldValue:Absolute] ||| [FieldValue:Year] [FieldValue:QuarterOfYear] ||| [FieldValue:Year] [FieldValue:QuarterOfYear] ||| 1.0
+[FieldValue:Absolute] ||| [FieldValue:YearMonth] ||| [FieldValue:YearMonth] ||| 1.0
+[FieldValue:Absolute] ||| [FieldValue:YearMonthDay] ||| [FieldValue:YearMonthDay] ||| 1.0
+[FieldValue:Absolute] ||| [FieldValue:YearMonthDay] [FieldValue:Time] ||| [FieldValue:YearMonthDay] [FieldValue:Time] ||| 1.0
+[FieldValue:Absolute] ||| [FieldValue:Time] [FieldValue:YearMonthDay] ||| [FieldValue:YearMonthDay] [FieldValue:Time] ||| 1.0
+
+// =============================
+// expressions of simple periods
+// =============================
+[Period] ||| [Unit:Singular] ||| Simple [Unit:Singular] ||| 1.0
+[Period:Amount] ||| [Int] [Unit] ||| Simple [Int] [Unit] ||| 1.0
+//e.g. "seharian"
+[Period:Amount] ||| se [Unit] an ||| Simple 1 [Unit] ||| 1.0
+//e.g. "7 hari 7 malam"
+[Period:Amount] ||| [Int,1] hari [Int,2] malam ||| Simple [Int,1] DAYS ||| 1.0
+// e.g. "3 bulan pertama"
+[Period] ||| [Int] [Unit] pertama||| Simple [Int] [Unit] ||| 1.0
+[Period] ||| [Int] [Unit] terakhir||| Simple [Int] [Unit] ||| 1.0
+[Period] ||| [Int] [Unit] akhir||| Simple [Int] [Unit] ||| 1.0
+// e.g. "periode 5 tahun"
+[Period:Amount] ||| periode [Int] [Unit] ||| Simple [Int] [Unit] ||| 1.0
+// e.g. "7 malam"
+[Period:Amount] ||| [Int] malam ||| Simple [Int] NIGHTS ||| 1.0
+// e.g. "sesorean"
+[Period:Amount] ||| se pagi an ||| Simple 1 MORNINGS ||| 1.0
+[Period:Amount] ||| se siang an ||| Simple 1 AFTERNOONS ||| 1.0
+[Period:Amount] ||| se sore an ||| Simple 1 EVENINGS ||| 1.0
+[Period:Amount] ||| se malam an ||| Simple 1 NIGHTS ||| 1.0
+[Period] ||| [Period:Amount] ||| [Period:Amount] ||| 1.0
+// e.g. "3 bulan dan 2 minggu"
+[Period] ||| [Period:Amount,1] dan [Period:Amount,2] ||| Sum [Period:Amount,1] [Period:Amount,2] ||| 1.0 
+
+// ==============================================
+// expressions of periods with fractional amounts
+// ==============================================
+[Period] ||| [Int,1] [Int,2] / [Int,3] [Unit] ||| Fractional [Int,1] [Int,2] [Int,3] [Unit] ||| 1.0
+[Period] ||| [Int] setengah [Unit] ||| Fractional [Int] ( Int 1 ) ( Int 2 ) [Unit] ||| 1.0
+[Period] ||| [Int] , 5 [Unit] ||| Fractional [Int] ( Int 1 ) ( Int 2 ) [Unit] ||| 1.0
+
+// ==================================
+// expressions of unspecified periods
+// ==================================
+[Period] ||| sebentar ||| Unspecified UNSPECIFIED ||| 1.0
+[Period] ||| sejenak ||| Unspecified UNSPECIFIED ||| 1.0
+[Period] ||| beberapa waktu ||| Unspecified UNSPECIFIED ||| 1.0
+[Period] ||| beberapa saat ||| Unspecified UNSPECIFIED ||| 1.0
+[Period] ||| sementara waktu ||| Unspecified UNSPECIFIED ||| 1.0
+// e.g. "berbulan-bulan"
+[Period] ||| [Unit:Plural] ||| Unspecified [Unit:Plural] ||| 1.0
+
+// ==========================================
+// expressions that set time period modifiers
+// ==========================================
+[Period] ||| kira kira [Period] ||| WithModifier [Period] APPROX ||| 1.0
+[Period] ||| kurang lebih [Period] ||| WithModifier [Period] APPROX ||| 1.0
+[Period] ||| lebih kurang [Period] ||| WithModifier [Period] APPROX ||| 1.0
+[Period] ||| sekitar [Period] ||| WithModifier [Period] APPROX ||| 1.0
+[Period] ||| hampir [Period] ||| WithModifier [Period] LESS_THAN ||| 1.0
+[Period] ||| kurang dari [Period] ||| WithModifier [Period] LESS_THAN ||| 1.0
+[Period] ||| lebih dari [Period] ||| WithModifier [Period] MORE_THAN ||| 1.0
+[Period] ||| paling tidak [Period] ||| WithModifier [Period] EQUAL_OR_MORE ||| 1.0
+[Period] ||| tidak lebih dari [Period] ||| WithModifier [Period] EQUAL_OR_LESS ||| 1.0
+//[Period] ||| sampai [Period] ||| WithModifier [Period] EQUAL_OR_LESS ||| 1.0
+//[Period] ||| hingga [Period] ||| WithModifier [Period] EQUAL_OR_LESS ||| 1.0
+
+// ==========================
+// expressions of period sets
+// ==========================
+[PeriodSet] ||| se hari hari ||| WithQuantifier ( Period Simple 1 DAYS ) EVERY ||| 1.0
+[PeriodSet] ||| sekali se [Period] ||| WithQuantifier [Period] EACH ||| 1.0
+[PeriodSet] ||| setiap [Period] ||| WithQuantifier [Period] EVERY ||| 1.0
+[PeriodSet] ||| tiap [Period] ||| WithQuantifier [Period] EVERY ||| 1.0
+
+// =======================================
+// time spans are either :Solo or :Regular
+// =======================================
+[TimeSpan] ||| [TimeSpan:Solo] ||| [TimeSpan:Solo] ||| 1.0
+[TimeSpan] ||| [TimeSpan:Regular] ||| [TimeSpan:Regular] ||| 1.0
+
+// ==============================================================
+// expressions of time spans that can't be combined with anything
+// ==============================================================
+[TimeSpan:Solo] ||| masa lalu ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| dulu ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| dahulu ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| dahulu kala ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| zaman dahulu kala ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| sebelum nya ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| sebelum itu ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| baru - baru ini ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| akhir - akhir ini ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| beberapa waktu yang lalu ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| beberapa waktu lalu ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| kemarin kemarin ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| saat itu ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| masa sebelum nya ||| Simple PAST ||| 1.0
+[TimeSpan:Solo] ||| sekarang ||| Simple PRESENT ||| 1.0
+[TimeSpan:Solo] ||| sekarang ini ||| Simple PRESENT ||| 1.0
+[TimeSpan:Solo] ||| saat ini ||| Simple PRESENT ||| 1.0
+[TimeSpan:Solo] ||| zaman sekarang ||| Simple PRESENT ||| 1.0
+[TimeSpan:Solo] ||| sekarang sekarang ini ||| Simple PRESENT ||| 1.0
+[TimeSpan:Solo] ||| masa kini ||| Simple PRESENT ||| 1.0
+[TimeSpan:Solo] ||| kini ||| Simple PRESENT ||| 1.0
+[TimeSpan:Solo] ||| nanti ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| masa depan ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| waktu nanti ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| saat nanti ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| masa mendatang ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| waktu mendatang ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| waktu yang akan datang ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| sebentar lagi ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| hari esok ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| besok besok ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| setelah itu ||| Simple FUTURE ||| 1.0
+[TimeSpan:Solo] ||| sesudah itu ||| Simple FUTURE ||| 1.0
+
+// ==================================
+// expressions of absolute time spans
+// ==================================
+[TimeSpan:Regular] ||| [FieldValue:Absolute] ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+// e.g. "1980-an"
+[TimeSpan:Regular] ||| [FieldValue:Year] - an ||| FindEnclosing ( TimeSpan FindAbsolute [FieldValue:Year] ) DECADES ||| 1.0
+// e.g. "19th century" - requires special handing because, e.g. "19th century" = "18" 
+[TimeSpan:Regular] ||| [Int] st century ||| EndAtStartOf ( TimeSpan FindAbsolute ( FieldValue CENTURY [Int] ) ) ( Period Simple 1 CENTURIES ) ||| 1.0 
+[TimeSpan:Regular] ||| [Int] nd century ||| EndAtStartOf ( TimeSpan FindAbsolute ( FieldValue CENTURY [Int] ) ) ( Period Simple 1 CENTURIES ) ||| 1.0 
+[TimeSpan:Regular] ||| [Int] rd century ||| EndAtStartOf ( TimeSpan FindAbsolute ( FieldValue CENTURY [Int] ) ) ( Period Simple 1 CENTURIES ) ||| 1.0 
+[TimeSpan:Regular] ||| [Int] th century ||| EndAtStartOf ( TimeSpan FindAbsolute ( FieldValue CENTURY [Int] ) ) ( Period Simple 1 CENTURIES ) ||| 1.0 
+// e.g. "abad kesebelas", "abad ke-11", abad XI
+[TimeSpan:Regular] ||| abad ke [Int] ||| EndAtStartOf ( TimeSpan FindAbsolute ( FieldValue CENTURY [Int] ) ) ( Period Simple 1 CENTURIES ) ||| 1.0
+[TimeSpan:Regular] ||| abad ke - [Int] ||| EndAtStartOf ( TimeSpan FindAbsolute ( FieldValue CENTURY [Int] ) ) ( Period Simple 1 CENTURIES ) ||| 1.0
+[TimeSpan:Regular] ||| abad [Int] ||| EndAtStartOf ( TimeSpan FindAbsolute ( FieldValue CENTURY [Int] ) ) ( Period Simple 1 CENTURIES ) ||| 1.0
+
+// =================================
+// expressions of current time spans
+// =================================
+//[TimeSpan:Regular] ||| hari ini ||| FindEnclosing PRESENT DAYS ||| 1.0
+[TimeSpan:AllowsThis] ||| hari yang sama ||| FindEnclosing PRESENT DAYS ||| 1.0
+[TimeSpan:Regular] ||| [Unit:Singular] ini ||| FindEnclosing PRESENT [Unit:Singular] ||| 1.0
+[TimeSpan:Regular] ||| [Unit:Singular] itu ||| FindEnclosing PRESENT [Unit:Singular] ||| 1.0
+[TimeSpan:Regular] ||| [Unit:Singular] sama ||| FindEnclosing PRESENT [Unit:Singular] ||| 1.0
+// e.g. "malam ini"
+[TimeSpan:Regular] ||| [FieldValue:Partial] ini ||| FindEnclosed ( TimeSpan FindEnclosing PRESENT [FieldValue:Partial] ) [FieldValue:Partial] ||| 1.0
+[TimeSpan:Regular] ||| [FieldValue:Partial] itu ||| FindEnclosed ( TimeSpan FindEnclosing PRESENT [FieldValue:Partial] ) [FieldValue:Partial] ||| 1.0
+[TimeSpan:Regular] ||| [FieldValue:Partial] tadi ||| FindEnclosed ( TimeSpan FindEarlier PRESENT [FieldValue:Partial] ) [FieldValue:Partial] ||| 1.0
+[TimeSpan:Regular] ||| tadi [FieldValue:Partial] ||| FindEnclosed ( TimeSpan FindEarlier PRESENT [FieldValue:Partial] ) [FieldValue:Partial] ||| 1.0
+// e.g. "Januari tahun ini" 
+[TimeSpan:Regular] ||| [FieldValue:Partial] [Unit] ini ||| FindEnclosed ( TimeSpan FindEnclosing PRESENT [Unit] ) [FieldValue:Partial] ||| 1.0 
+// e.g. "penghujung 2014 ini"
+[TimeSpan:Regular] ||| [FieldValue:Absolute] ini ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+
+// =================================
+// expressions of earlier time spans
+// =================================
+[TimeSpan:Regular] ||| kemarin ||| EndAtStartOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| kemarin lusa ||| EndAtStartOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 2 DAYS ) ||| 1.0
+// e.g. "Oktober lalu"
+[TimeSpan:AllowsThis] ||| [FieldValue:Partial] lalu ||| FindEarlier PRESENT [FieldValue:Partial] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Partial] yang lalu ||| FindEarlier PRESENT [FieldValue:Partial] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Partial] kemarin ||| FindEarlier PRESENT [FieldValue:Partial] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Absolute] lalu ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Absolute] yang lalu ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Absolute] kemarin ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+// e.g. "kemarin (19/11)"
+[TimeSpan:AllowsThis] ||| kemarin [FieldValue:Partial] ||| EndAtStartOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
+// e.g. "semalam" --> "kemarin malam" 
+[TimeSpan:Regular] ||| se malam ||| FindEnclosed ( TimeSpan FindEarlier PRESENT ( FieldValue NIGHT_OF_DAY 1 ) ) ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
+// e.g. "tiga minggu terakhir"
+[TimeSpan:AllowsThis] ||| [Period] terakhir ||| EndAtStartOf ( TimeSpan FindEnclosing PRESENT [Period] ) [Period] ||| 1.0
+[TimeSpan:AllowsThis] ||| [Period] terakhir ||| EndAtStartOf ( TimeSpan FindEnclosed PRESENT [Period] ) [Period] ||| 1.0
+// alternate interpretation: exactly [Period] earlier
+// e.g. "tahun depan"
+[TimeSpan:Regular] ||| [Period] lalu ||| MoveEarlier PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] yang lalu ||| MoveEarlier PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] kemarin ||| MoveEarlier PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] sebelum nya ||| MoveEarlier PRESENT [Period] ||| 1.0
+[TimeSpan:AllowsThis] ||| [Period] sebelum ||| MoveEarlier PRESENT [Period] ||| 1.0
+// e.g. "tiga hari sebelum kemarin"
+[TimeSpan:Regular] ||| [Period] sebelum [TimeSpan:Regular] ||| EndAtStartOf ( TimeSpan FindEnclosing [TimeSpan:Regular] [Period] ) [Period] ||| 1.0
+// e.g. "Januari tahun lalu"
+[TimeSpan:Regular] ||| [FieldValue:Partial] [Unit] lalu ||| FindEnclosed ( TimeSpan EndAtStartOf ( TimeSpan FindEnclosing PRESENT [Unit] ) ( Period Simple 1 [Unit] ) ) [FieldValue:Partial] ||| 1.0
+
+// ===============================
+// expressions of later time spans
+// ===============================
+[TimeSpan:Regular] ||| besok ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| esok ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| esok hari ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| keesokan hari ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| lusa ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 2 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| besok lusa ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 2 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| esok lusa ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 2 DAYS ) ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Absolute] besok ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+// e.g. "besok (19/11)"
+[TimeSpan:AllowsThis] ||| besok [FieldValue:Partial] ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
+// e.g. "Selasa depan"
+[TimeSpan:AllowsThis] ||| [FieldValue:Partial] depan ||| FindLater PRESENT [FieldValue:Partial] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Partial] nanti ||| FindLater PRESENT [FieldValue:Partial] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Partial] mendatang ||| FindLater PRESENT [FieldValue:Partial] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Partial] yang akan datang ||| FindLater PRESENT [FieldValue:Partial] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Absolute] depan ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Absolute] nanti ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Absolute] mendatang ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+[TimeSpan:AllowsThis] ||| [FieldValue:Absolute] yang akan datang ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
+// e.g. "3 minggu ke depan" 
+[TimeSpan:AllowsThis] ||| [Period] ke depan ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT [Period] ) [Period] ||| 1.0
+// alternate interpretation: exactly [Period] later
+[TimeSpan:Regular] ||| [Period] depan ||| MoveLater PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] nanti ||| MoveLater PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] mendatang ||| MoveLater PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] yang akan datang ||| MoveLater PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] kemudian ||| MoveLater PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] setelah nya ||| MoveLater PRESENT [Period] ||| 1.0
+[TimeSpan:Regular] ||| [Period] sesudah nya ||| MoveLater PRESENT [Period] ||| 1.0
+[TimeSpan:AllowsThis] ||| [Period] setelah ||| MoveLater PRESENT [Period] ||| 1.0
+[TimeSpan:AllowsThis] ||| [Period] sesudah ||| MoveLater PRESENT [Period] ||| 1.0
+// e.g. "Januari tahun depan"
+[TimeSpan:Regular] ||| [FieldValue:Partial] [Unit] depan ||| FindEnclosed ( TimeSpan EndAtStartOf ( TimeSpan FindEnclosing PRESENT [Unit] ) ( Period Simple 1 [Unit] ) ) [FieldValue:Partial] ||| 1.0
+[TimeSpan:Regular] ||| [FieldValue:Partial] [Unit] mendatang ||| FindEnclosed ( TimeSpan EndAtStartOf ( TimeSpan FindEnclosing PRESENT [Unit] ) ( Period Simple 1 [Unit] ) ) [FieldValue:Partial] ||| 1.0
+[TimeSpan:Regular] ||| [FieldValue:Partial] [Unit] yang akan datang ||| FindEnclosed ( TimeSpan EndAtStartOf ( TimeSpan FindEnclosing PRESENT [Unit] ) ( Period Simple 1 [Unit] ) ) [FieldValue:Partial] ||| 1.0
+
+// ====================================================================================
+// allows rules tagged with :AllowsThis to be prefixed by "this" or "that" (or nothing)
+// ====================================================================================
+[TimeSpan:Regular] ||| [TimeSpan:AllowsThis] ||| [TimeSpan:AllowsThis] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:AllowsThis] ini ||| [TimeSpan:AllowsThis] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:AllowsThis] itu ||| [TimeSpan:AllowsThis] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:AllowsThis] nanti ||| [TimeSpan:AllowsThis] ||| 1.0
+
+// ==========================================
+// expressions that could be earlier or later
+// ==========================================
+// e.g. "Jumat", "akhir minggu", "11 Oktober"
+[TimeSpan:Regular] ||| [FieldValue:Partial] ||| FindAtOrEarlier PRESENT [FieldValue:Partial] ||| 1.0
+[TimeSpan:Regular] ||| [FieldValue:Partial] ||| FindLater PRESENT [FieldValue:Partial] ||| 1.0
+
+
+// ========================================================================
+// expressions that could be earlier or later (but we assume to be earlier)
+// ========================================================================
+[TimeSpan:Regular] ||| tahun sepuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 1 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun duapuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 2 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun tigapuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 3 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun empatpuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 4 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun limapuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 5 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun enampuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 6 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun tujuhpuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 7 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun delapanpuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 8 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun sembilanpuluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 9 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun dua puluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 2 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun tiga puluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 3 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun empat puluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 4 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun lima puluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 5 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun enam puluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 6 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun tujuh puluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 7 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun delapan puluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 8 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun sembilan puluhan ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 9 ) ||| 1.0
+[TimeSpan:Regular] ||| ' [Int:0-99] ||| FindAtOrEarlier PRESENT ( FieldValue YEAR_OF_CENTURY [Int:0-99] ) ||| 1.0
+//[TimeSpan:Regular] ||| tahun [Int] - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY ( Int ( Divide ( Int [Int] ) ( Int 10 ) ) ) ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 10 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 1 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 20 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 2 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 30 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 3 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 40 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 4 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 50 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 5 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 60 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 6 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 70 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 7 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 80 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 8 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun 90 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 9 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 10 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 1 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 20 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 2 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 30 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 3 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 40 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 4 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 50 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 5 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 60 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 6 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 70 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 7 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 80 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 8 ) ||| 1.0
+[TimeSpan:Regular] ||| tahun ' 90 - an ||| FindAtOrEarlier PRESENT ( FieldValue DECADE_OF_CENTURY 9 ) ||| 1.0
+
+// ==========================================
+// expressions changing time span granularity
+// ==========================================
+// e.g. "the week of March 6"
+//[TimeSpan:Regular] ||| [Unit:Singular] of [TimeSpan:Regular] ||| FindEnclosing [TimeSpan:Regular] [Unit:Singular] ||| 1.0
+// e.g. "the quarter a year ago", "the period last year"
+[TimeSpan:Regular] ||| [Unit:Singular] [TimeSpan:Regular] ||| FindEnclosing [TimeSpan:Regular] [Unit:Singular] ||| 1.0
+// e.g. "hari Natal"
+[TimeSpan:Regular] ||| [Unit:Singular] [TimeSpan:Regular] ||| FindEnclosing [TimeSpan:Regular] [Unit:Singular] ||| 1.0
+// e.g. "sore kemarin", "besok pagi"
+[TimeSpan:Regular] ||| [FieldValue:PartOfDay] [TimeSpan:Regular] ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] ini ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] itu ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] tadi ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
+// e.g. "kuartal pertama tahun ini"
+[TimeSpan:Regular] ||| [FieldValue:Partial] [TimeSpan:Regular] ||| FindEnclosed [TimeSpan:Regular] [FieldValue:Partial] ||| 1.0
+// e.g "tanggal 10"
+[TimeSpan:Regular] ||| [FieldValue:NumericDayOfMonth] ||| FindEnclosed ( TimeSpan FindEnclosing PRESENT MONTHS ) [FieldValue:NumericDayOfMonth] ||| 1.0
+
+// ========================================
+// expressions that set time span modifiers
+// ========================================
+[TimeSpan:Regular] ||| akhir [Unit] ||| WithModifier ( TimeSpan FindEnclosing PRESENT [Unit] ) END ||| 1.0 
+[TimeSpan:Regular] ||| penutup [Unit] ||| WithModifier ( TimeSpan FindEnclosing PRESENT [Unit] ) END ||| 1.0 
+[TimeSpan:Regular] ||| penghujung [Unit] ||| WithModifier ( TimeSpan FindEnclosing PRESENT [Unit] ) END ||| 1.0 
+[TimeSpan:Regular] ||| akhir [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] END ||| 1.0
+[TimeSpan:Regular] ||| penutup [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] END ||| 1.0
+[TimeSpan:Regular] ||| penghujung [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] END ||| 1.0
+[TimeSpan:Regular] ||| awal [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] START ||| 1.0
+[TimeSpan:Regular] ||| pembuka [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] START ||| 1.0
+[TimeSpan:Regular] ||| awal [Unit] ||| WithModifier ( TimeSpan FindEnclosing PRESENT [Unit] ) START ||| 1.0
+[TimeSpan:Regular] ||| pembuka [Unit] ||| WithModifier ( TimeSpan FindEnclosing PRESENT [Unit] ) START ||| 1.0
+// don't allow this to combine with other rules, since "earlier" can play many roles
+[TimeSpan:Regular] ||| tengah [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] MID ||| 1.0
+[TimeSpan:Regular] ||| pertengahan [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] MID ||| 1.0
+[TimeSpan:Regular] ||| tengah [Unit] ||| WithModifier ( TimeSpan FindEnclosing PRESENT [Unit] ) MID ||| 1.0
+[TimeSpan:Regular] ||| pertengahan [Unit] ||| WithModifier ( TimeSpan FindEnclosing PRESENT [Unit] ) MID ||| 1.0
+[TimeSpan:Regular] ||| hampir [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] APPROX ||| 1.0
+[TimeSpan:Regular] ||| kira kira [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] APPROX ||| 1.0
+[TimeSpan:Regular] ||| sekitar [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] APPROX ||| 1.0
+[TimeSpan:Regular] ||| kurang lebih [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] APPROX ||| 1.0
+[TimeSpan:Regular] ||| pra [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] BEFORE ||| 1.0
+[TimeSpan:Regular] ||| pasca [TimeSpan:Regular] ||| WithModifier [TimeSpan:Regular] AFTER ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] dan selanjut nya ||| WithModifier [TimeSpan:Regular] ON_OR_AFTER ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] dan seterus nya ||| WithModifier [TimeSpan:Regular] ON_OR_AFTER ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] dan sebelum nya ||| WithModifier [TimeSpan:Regular] ON_OR_BEFORE ||| 1.0
+
+// =============================
+// expressions of time span sets
+// =============================
+// e.g. "setiap Selasa"
+[TimeSpanSet] ||| setiap [FieldValue:Partial] ||| Simple [FieldValue:Partial] ||| 1.0
+[TimeSpanSet] ||| tiap [FieldValue:Partial] ||| Simple [FieldValue:Partial] ||| 1.0
+// e.g. "malam-malam Minggu"
+[TimeSpanSet] ||| [FieldValue:Unspecified] [FieldValue:Partial] ||| Simple ( FieldValue ( FindEarlier PRESENT [FieldValue:Partial] ) [FieldValue:Unspecified] ) ||| 1.0
