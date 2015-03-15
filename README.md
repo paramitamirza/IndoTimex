@@ -13,7 +13,7 @@ python python TimexExtraction.py file_name [options]
 
 options: -o output_dir_name/file_name (default: dir_path/dir_name_Timex/ for directory and file_path/file_name_timex.tml for file)
 ```   
-The output file(s) will contain a TimeML document annotated with time expressions (with the TIMEX3 tag).
+The output file(s) will be a TimeML document annotated with time expressions (with the TIMEX3 tag).
 
 ###To convert TimeML file(s) to HTML for better viewing
 ```
