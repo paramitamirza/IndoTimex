@@ -27,11 +27,11 @@ options: -o output_dir_name/file_name (default: dir_path/dir_name_HTML/ for dire
 ###Modules
 IndoTimex contains two main modules:
 
-1. Timex recognition, a finite state transducer (FST) to recognize time expressions and their types (based on the TimeML standard, i.e. DATE, DURATION, TIME and SET).
-2. Timex normalization, an extension of [TimeNorm](https://github.com/bethard/timenorm), a library for normalizing the values of time expressions (based on the ISO 8601 standard) using synchronous context free grammars, for Indonesian language.
+1. **Timex recognition**, a finite state transducer (FST) to recognize time expressions and their types (based on the TimeML standard, i.e. DATE, DURATION, TIME and SET).
+2. **Timex normalization**, an extension of [TimeNorm](https://github.com/bethard/timenorm), a library for normalizing the values of time expressions (based on the ISO 8601 standard) using synchronous context free grammars, for Indonesian language.
  
 #####Publication
-Paramita Mirza. 2015. Recognizing and Normalizing Temporal Expressions in Indonesian Texts. *(to appear) In Proceedings of the Conference of the Pacific Association for Computational Linguistics (PACLING 2015)*, Bali, Indonesia, May. [pdf]
+Paramita Mirza. 2015. **Recognizing and Normalizing Temporal Expressions in Indonesian Texts**. *(to appear) In Proceedings of the Conference of the Pacific Association for Computational Linguistics (PACLING 2015)*, Bali, Indonesia, May. [pdf]
 
 #####Dataset
 The dataset for development and evaluation phases of the system is available in *dataset/*, comprising 75 news articles taken from www.kompas.com.
