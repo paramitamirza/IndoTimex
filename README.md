@@ -3,6 +3,7 @@ Time expression extraction module, including time expression recognition and nor
 
 ###Requirements
 * Python 2.7 or higher
+* Java Runtime Environment (JRE) 1.7.x or higher
 * [TimeNorm for Indonesian language](https://github.com/paramitamirza/timenorm-id) (.jar is provided in lib/)
  
 ###Usage
