@@ -483,7 +483,7 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 // expressions of earlier time spans
 // =================================
 [TimeSpan:Regular] ||| kemarin ||| EndAtStartOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
-[TimeSpan:Regular] ||| kemarin lusa ||| EndAtStartOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 2 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| kemarin lusa ||| MoveEarlier PRESENT ( Period Simple 2 DAYS ) ||| 1.0
 // e.g. "Oktober lalu"
 [TimeSpan:AllowsThis] ||| [FieldValue:Partial] lalu ||| FindEarlier PRESENT [FieldValue:Partial] ||| 1.0
 [TimeSpan:AllowsThis] ||| [FieldValue:Partial] yang lalu ||| FindEarlier PRESENT [FieldValue:Partial] ||| 1.0
@@ -517,9 +517,9 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 [TimeSpan:Regular] ||| esok ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
 [TimeSpan:Regular] ||| esok hari ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
 [TimeSpan:Regular] ||| keesokan hari ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
-[TimeSpan:Regular] ||| lusa ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 2 DAYS ) ||| 1.0
-[TimeSpan:Regular] ||| besok lusa ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 2 DAYS ) ||| 1.0
-[TimeSpan:Regular] ||| esok lusa ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 2 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| lusa ||| MoveLater PRESENT ( Period Simple 2 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| besok lusa ||| MoveLater PRESENT ( Period Simple 2 DAYS ) ||| 1.0
+[TimeSpan:Regular] ||| esok lusa ||| MoveLater PRESENT ( Period Simple 2 DAYS ) ||| 1.0
 [TimeSpan:AllowsThis] ||| [FieldValue:Absolute] besok ||| FindAbsolute [FieldValue:Absolute] ||| 1.0
 // e.g. "besok (19/11)"
 [TimeSpan:AllowsThis] ||| besok [FieldValue:Partial] ||| StartAtEndOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
