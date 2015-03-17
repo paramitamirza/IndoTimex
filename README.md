@@ -25,7 +25,7 @@ options: -o output_dir_name/file_name (default: dir_path/dir_name_HTML/ for dire
 ```   
 
 ###Demo
-The demo is available at [http://paramitamirza.ml/indotimex/](http://paramitamirza.ml/indotimex/)
+The demo is available at [http://paramitamirza.ml/indotimex/](http://paramitamirza.ml/indotimex/).
 
 ###Contact
-For more information please contact [Paramita Mirza](http://paramitopia.com/about/) (paramita@fbk.eu)
+For more information please contact [Paramita Mirza](http://paramitopia.com/about/) (paramita@fbk.eu).
