@@ -62,7 +62,7 @@ class TimexExtraction:
         
         (init_state, transition, final_state) = self.__readTimexFST()  #read FST from file
         
-        for i in range(len(tokens)-1):
+        for i in range(len(tokens)):
             tok_curr = tokens[i]
             cat_curr = self.__getTokenLabel(tok_curr)
             #print tok_curr, cat_curr
