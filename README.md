@@ -18,8 +18,8 @@ The output file(s) will be a TimeML document annotated with time expressions (wi
 
 #####To convert TimeML file(s) to HTML for better viewing
 ```
-python python convertToHTML.py dir_name [options]        or
-python python convertToHTML.py file_name [options]
+python python ConvertToHTML.py dir_name [options]        or
+python python ConvertToHTML.py file_name [options]
 
 options: -o output_dir_name/file_name (default: dir_path/dir_name_HTML/ for directory and file_path/file_name.html for file)
 ```   
