@@ -3,6 +3,61 @@ import os
 import re
 import subprocess
 
+class ConvertToHTML:
+    def __init__(self, filepath):
+        self.timeml = open(filepath, "r").read()
+
+    def convertHTML(self):
+        docid = re.findall(r"<%s>(.+?)<%s>" % ('DOCID','/DOCID'), self.timeml, re.DOTALL)[0]
+        content = re.findall(r"<%s>(.+?)<%s>" % ('TEXT','/TEXT'), self.timeml, re.DOTALL)[0]
+        title = re.findall(r"<%s>(.+?)<%s>" % ('TITLE','/TITLE'), self.timeml, re.DOTALL)[0]
+        dct = re.findall(r"<DCT><TIMEX3.+?\"CREATION_TIME\">(.+?)</TIMEX3>", self.timeml, re.DOTALL)[0]  
+        
+        content = re.sub(r"\n", "</p><p>", content)
+        content = re.sub(r"<TIMEX3 tid=\"(.+?)\" type=\"(.+?)\" value=\"(.+?)\">", r"<span title='\g<1>: \g<2>, \g<3>'>", content)
+        content = re.sub(r"</TIMEX3>", r"</span>", content)
+        
+        html_text = "<html><style>body{padding:10px;font-size:12px;font-family:Tahoma,Arial,Helvetica,sans-serif;color:#333;}span{background-color:#ccebeb;cursor:pointer;}.content{float:left;width:100%;border:1px solid #ddd;padding:5px;}.sidebar{float:left;width:20%;border:1px solid #ddd;padding:5px;}a{color:#87b212;}a:hover{color:#0eae99;}li{padding:3px;}p{line-height:1.5;}</style><body>\n"
+        html_text += "<div class='content'>"
+        html_text += "<h3>" + title + "</h3>"
+        html_text += "<h5>" + dct + "</h5>"
+        html_text += "<p>" + content + "</p>"
+        html_text += "</div>"
+        html_text += "</body></html>"
+        
+        return html_text    
+
+    def convertHTMLDir(self, filename):
+        docid = re.findall(r"<%s>(.+?)<%s>" % ('DOCID','/DOCID'), self.timeml, re.DOTALL)[0]
+        content = re.findall(r"<%s>(.+?)<%s>" % ('TEXT','/TEXT'), self.timeml, re.DOTALL)[0]
+        title = re.findall(r"<%s>(.+?)<%s>" % ('TITLE','/TITLE'), self.timeml, re.DOTALL)[0]
+        dct = re.findall(r"<DCT><TIMEX3.+?\"CREATION_TIME\">(.+?)</TIMEX3>", self.timeml, re.DOTALL)[0]  
+        
+        content = re.sub(r"\n", "</p><p>", content)
+        content = re.sub(r"<TIMEX3 tid=\"(.+?)\" type=\"(.+?)\" value=\"(.+?)\">", r"<span title='\g<1>: \g<2>, \g<3>'>", content)
+        content = re.sub(r"</TIMEX3>", r"</span>", content)
+        
+        filelist = open("filelist", "r")
+        
+        html_text = "<html><style>body{padding:10px;font-size:12px;font-family:Tahoma,Arial,Helvetica,sans-serif;color:#333;}span{background-color:#ccebeb;cursor:pointer;}.content{float:left;width:75%;border:1px solid #ddd;padding:5px;}.sidebar{float:left;width:20%;border:1px solid #ddd;padding:5px;}a{color:#87b212;}a:hover{color:#0eae99;}li{padding:3px;}p{line-height:1.5;}</style><body>\n"
+        html_text += "<div class='content'>"
+        html_text += "<h3>" + title + "</h3>"
+        html_text += "<h5>" + dct + "</h5>"
+        html_text += "<p>" + content + "</p>"
+        html_text += "</div>"
+        html_text += "<div class='sidebar'><ul>"
+        for fname in filelist.readlines():
+            if fname.strip() == filename:
+                html_text += "<li><span>" + fname.strip() + "</span></li>"
+            else:
+                html_text += "<li><a href='" + fname.strip().replace(".tml", ".html") + "'>" + fname.strip() + "</a></li>"
+        html_text += "</ul></div>"
+        html_text += "</body></html>"
+        
+        filelist.close()
+        
+        return html_text
+        
 #check directory existence
 def ensureDir(f):
     d = os.path.dirname(f)
@@ -10,61 +65,10 @@ def ensureDir(f):
         os.makedirs(d)
     
 def printUsage():
-    print "usage: python convertToHTML.py dir_name [options]"
-    print "   or: python convertToHTML.py file_name [options]"
+    print "usage: python ConvertToHTML.py dir_name [options]"
+    print "   or: python ConvertToHTML.py file_name [options]"
     print " "
-    print "       options: -o output_dir_name/file_name (default: dir_path/dir_name_HTML/ for directory and file_path/file_name.html for file)"
-    
-def convertHTML(timeml_in):
-    docid = re.findall(r"<%s>(.+?)<%s>" % ('DOCID','/DOCID'), timeml_in, re.DOTALL)[0]
-    content = re.findall(r"<%s>(.+?)<%s>" % ('TEXT','/TEXT'), timeml_in, re.DOTALL)[0]
-    title = re.findall(r"<%s>(.+?)<%s>" % ('TITLE','/TITLE'), timeml_in, re.DOTALL)[0]
-    dct = re.findall(r"<DCT><TIMEX3.+?\"CREATION_TIME\">(.+?)</TIMEX3>", timeml_in, re.DOTALL)[0]  
-    
-    content = re.sub(r"\n", "</p><p>", content)
-    content = re.sub(r"<TIMEX3 tid=\"(.+?)\" type=\"(.+?)\" value=\"(.+?)\">", r"<span title='\g<1>: \g<2>, \g<3>'>", content)
-    content = re.sub(r"</TIMEX3>", r"</span>", content)
-    
-    html_text = "<html><style>body{padding:10px;font-size:12px;font-family:Tahoma,Arial,Helvetica,sans-serif;color:#333;}span{background-color:#f5f700;cursor:pointer;}.content{float:left;width:75%;border:1px solid #ddd;padding:5px;}.sidebar{float:left;width:20%;border:1px solid #ddd;padding:5px;}a{color:#87b212;}a:hover{color:#0eae99;}</style><body>\n"
-    html_text += "<div class='content'>"
-    html_text += "<h3>" + title + "</h3>"
-    html_text += "<h5>" + dct + "</h5>"
-    html_text += "<p>" + content + "</p>"
-    html_text += "</div>"
-    html_text += "</body></html>"
-    
-    return html_text    
-
-def convertHTMLDir(filename, timeml_in):
-    docid = re.findall(r"<%s>(.+?)<%s>" % ('DOCID','/DOCID'), timeml_in, re.DOTALL)[0]
-    content = re.findall(r"<%s>(.+?)<%s>" % ('TEXT','/TEXT'), timeml_in, re.DOTALL)[0]
-    title = re.findall(r"<%s>(.+?)<%s>" % ('TITLE','/TITLE'), timeml_in, re.DOTALL)[0]
-    dct = re.findall(r"<DCT><TIMEX3.+?\"CREATION_TIME\">(.+?)</TIMEX3>", timeml_in, re.DOTALL)[0]  
-    
-    content = re.sub(r"\n", "</p><p>", content)
-    content = re.sub(r"<TIMEX3 tid=\"(.+?)\" type=\"(.+?)\" value=\"(.+?)\">", r"<span title='\g<1>: \g<2>, \g<3>'>", content)
-    content = re.sub(r"</TIMEX3>", r"</span>", content)
-    
-    filelist = open("filelist", "r")
-    
-    html_text = "<html><style>body{padding:10px;font-size:12px;font-family:Tahoma,Arial,Helvetica,sans-serif;color:#333;}span{background-color:#ccebeb;cursor:pointer;}.content{float:left;width:75%;border:1px solid #ddd;padding:5px;}.sidebar{float:left;width:20%;border:1px solid #ddd;padding:5px;}a{color:#87b212;}a:hover{color:#0eae99;}li{padding:3px;}p{line-height:1.5;}</style><body>\n"
-    html_text += "<div class='content'>"
-    html_text += "<h3>" + title + "</h3>"
-    html_text += "<h5>" + dct + "</h5>"
-    html_text += "<p>" + content + "</p>"
-    html_text += "</div>"
-    html_text += "<div class='sidebar'><ul>"
-    for fname in filelist.readlines():
-        if fname.strip() == filename:
-            html_text += "<li><span>" + fname.strip() + "</span></li>"
-        else:
-            html_text += "<li><a href='" + fname.strip().replace(".tml", ".html") + "'>" + fname.strip() + "</a></li>"
-    html_text += "</ul></div>"
-    html_text += "</body></html>"
-    
-    filelist.close()
-    
-    return html_text
+    print "       options: -o output_dir_name/file_name (default: dir_path/dir_name_HTML/ for directory and file_path/file_name.html for file)"    
   
 #main
 if __name__ == '__main__':
@@ -110,8 +114,8 @@ if __name__ == '__main__':
                         print "Converting " + filepath + "..."
                         out_file = open(output_dir_name + os.path.basename(filepath.replace(".tml", ".html")), "w")
                         
-                        timeml_in = open(filepath, "r").read()
-                        html_text = convertHTMLDir(filename, timeml_in)
+                        conv = ConvertToHTML(filepath)
+                        html_text = conv.convertHTMLDir(filename)
                         out_file.write(html_text)
                         out_file.close()
                         
@@ -128,8 +132,8 @@ if __name__ == '__main__':
                 out_file_name = os.path.splitext(os.path.basename(sys.argv[1]))[0] + ".html"
             out_file = open(out_file_name, "w")
 
-            timeml_in = open(sys.argv[1], "r").read()
-            html_text = convertHTML(timeml_in)
+            conv = ConvertToHTML(sys.argv[1])
+            html_text = conv.convertHTML()
             out_file.write(html_text)
             out_file.close()
 
