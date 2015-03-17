@@ -1,5 +1,5 @@
 # IndoTimex
-Time expression extraction module, including time expression recognition and normalization, for Indonesian language, written in Python.
+Time expression extraction system, including time expression recognition and normalization, for Indonesian language, written in Python.
 
 ###Requirements
 * Python 2.7 or higher
