@@ -37,7 +37,7 @@ Paramita Mirza. 2015. **Recognizing and Normalizing Temporal Expressions in Indo
 The dataset for development and evaluation phases of the system is available in `dataset/`, comprising 75 news articles taken from www.kompas.com.
 
 ###Demo
-The demo is available at [http://paramitamirza.ml/indotimex/](http://paramitamirza.ml/indotimex/).
+The online demo is available at [http://paramitamirza.ml/indotimex/](http://paramitamirza.ml/indotimex/).
 
 ###Contact
 For more information please contact [Paramita Mirza](http://paramitopia.com/about/) (paramita@fbk.eu).
