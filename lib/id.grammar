@@ -362,6 +362,7 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 [Period] ||| [Period:Amount] ||| [Period:Amount] ||| 1.0
 // e.g. "3 bulan dan 2 minggu"
 [Period] ||| [Period:Amount,1] dan [Period:Amount,2] ||| Sum [Period:Amount,1] [Period:Amount,2] ||| 1.0 
+[Period] ||| [Period:Amount,1] [Period:Amount,2] ||| Sum [Period:Amount,1] [Period:Amount,2] ||| 1.0 
 
 // ==============================================
 // expressions of periods with fractional amounts
