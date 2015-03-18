@@ -132,9 +132,9 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 [FieldValue:PartOfDay] ||| sore sore ||| AFTERNOON_OF_DAY 1 ||| 1.0
 [FieldValue:PartOfDay] ||| petang ||| EVENING_OF_DAY 1 ||| 1.0
 [FieldValue:PartOfDay] ||| senja ||| EVENING_OF_DAY 1 ||| 1.0
-[FieldValue:PartOfDay] ||| malam ||| NIGHT_OF_DAY 1 ||| 1.0
+[FieldValue:PartOfDayNight] ||| malam ||| NIGHT_OF_DAY 1 ||| 1.0
 [FieldValue:PartOfDay] ||| malam malam||| NIGHT_OF_DAY 1 ||| 1.0
-//[FieldValue:PartOfDay] ||| semalam ||| NIGHT_OF_DAY 1 ||| 1.0
+//[FieldValue:PartOfDay] ||| se malam ||| NIGHT_OF_DAY 1 ||| 1.0
 
 // ===========================================
 // expressions that identify a day of the week
@@ -273,6 +273,7 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 [FieldValue:NamedDay] ||| akhir tahun ||| ( FieldValue MONTH_OF_YEAR 12 ) ( FieldValue DAY_OF_MONTH 31 ) ||| 1.0
 [FieldValue:NamedDay] ||| malam akhir tahun ||| ( FieldValue MONTH_OF_YEAR 12 ) ( FieldValue DAY_OF_MONTH 31 ) ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
 [FieldValue:NamedDay] ||| malam tahun baru ||| ( FieldValue MONTH_OF_YEAR 12 ) ( FieldValue DAY_OF_MONTH 31 ) ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
+[FieldValue:NamedDay] ||| malam natal ||| ( FieldValue MONTH_OF_YEAR 12 ) ( FieldValue DAY_OF_MONTH 24 ) ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
 [FieldValue:NamedDay] ||| paskah ||| EASTER_DAY_OF_YEAR 1 ||| 1.0
 //[FieldValue:NamedDay] ||| election ||| ( FieldValue DAY_OF_WEEK 2 ) ( FieldValue MONTH_OF_YEAR 11 ) ( FieldValue ALIGNED_WEEK_OF_MONTH 1 ) ||| 1.0
 
@@ -297,6 +298,9 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 [FieldValue:PartialTime] ||| [FieldValue:PartOfDay] ||| [FieldValue:PartOfDay] ||| 1.0
 [FieldValue:PartialTime] ||| [FieldValue:PartOfDay] hari ||| [FieldValue:PartOfDay] ||| 1.0
 [FieldValue:PartialTime] ||| [FieldValue:PartOfDay] sekali ||| [FieldValue:PartOfDay] ||| 1.0
+[FieldValue:PartialTime] ||| [FieldValue:PartOfDayNight] ||| [FieldValue:PartOfDayNight] ||| 1.0
+[FieldValue:PartialTime] ||| [FieldValue:PartOfDayNight] hari ||| [FieldValue:PartOfDayNight] ||| 1.0
+[FieldValue:PartialTime] ||| [FieldValue:PartOfDayNight] sekali ||| [FieldValue:PartOfDayNight] ||| 1.0
 [FieldValue:PartialYearMonthDay] ||| [FieldValue:DayOfWeek] ||| [FieldValue:DayOfWeek] ||| 1.0
 [FieldValue:PartialYearMonthDay] ||| hari [FieldValue:DayOfWeek] ||| [FieldValue:DayOfWeek] ||| 1.0
 [FieldValue:PartialYearMonthDay] ||| [FieldValue:MonthDay] ||| [FieldValue:MonthDay] ||| 1.0
@@ -314,8 +318,6 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 [FieldValue:Partial] ||| [FieldValue:SeasonOfYear] ||| [FieldValue:SeasonOfYear] ||| 1.0
 [FieldValue:Partial] ||| [FieldValue:QuarterOfYear] ||| [FieldValue:QuarterOfYear] ||| 1.0
 [FieldValue:Partial] ||| [FieldValue:WeekOfMonth] ||| [FieldValue:WeekOfMonth] ||| 1.0
-// e.g. "malam Minggu" --> "Sabtu malam"
-[FieldValue:Partial] ||| malam [FieldValue:DayOfWeek] ||| FindEarlier PRESENT [FieldValue:DayOfWeek] ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
 
 // ===============================================================
 // combinations of time fields that fully specify an absolute time
@@ -494,7 +496,7 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 // e.g. "kemarin (19/11)"
 [TimeSpan:AllowsThis] ||| kemarin [FieldValue:Partial] ||| EndAtStartOf ( TimeSpan FindEnclosing PRESENT DAYS ) ( Period Simple 1 DAYS ) ||| 1.0
 // e.g. "semalam" --> "kemarin malam" 
-[TimeSpan:Regular] ||| se malam ||| FindEnclosed ( TimeSpan FindEarlier PRESENT ( FieldValue NIGHT_OF_DAY 1 ) ) ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
+[TimeSpan:Regular] ||| se malam ||| FindEnclosed ( TimeSpan MoveEarlier PRESENT ( Period Simple 1 DAYS ) ) ( FieldValue NIGHT_OF_DAY 1 ) ||| 1.0
 // e.g. "tiga minggu terakhir"
 [TimeSpan:AllowsThis] ||| [Period] terakhir ||| EndAtStartOf ( TimeSpan FindEnclosing PRESENT [Period] ) [Period] ||| 1.0
 [TimeSpan:AllowsThis] ||| [Period] terakhir ||| EndAtStartOf ( TimeSpan FindEnclosed PRESENT [Period] ) [Period] ||| 1.0
@@ -617,6 +619,8 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 [TimeSpan:Regular] ||| [Unit:Singular] [TimeSpan:Regular] ||| FindEnclosing [TimeSpan:Regular] [Unit:Singular] ||| 1.0
 // e.g. "sore kemarin", "besok pagi"
 [TimeSpan:Regular] ||| [FieldValue:PartOfDay] [TimeSpan:Regular] ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
+// e.g. "malam Minggu" --> "Sabtu malam"
+[TimeSpan:Regular] ||| [FieldValue:PartOfDayNight] [TimeSpan:Regular] ||| FindEnclosed ( TimeSpan MoveEarlier [TimeSpan:Regular] ( Period Simple 1 DAYS ) ) [FieldValue:PartOfDayNight] ||| 1.0
 [TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
 [TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] ini ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
 [TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] itu ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
