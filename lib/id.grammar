@@ -625,6 +625,10 @@ ROOTS [Period] [PeriodSet] [TimeSpan] [TimeSpanSet]
 [TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] ini ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
 [TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] itu ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
 [TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDay] tadi ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDay] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDayNight] ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDayNight] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDayNight] ini ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDayNight] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDayNight] itu ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDayNight] ||| 1.0
+[TimeSpan:Regular] ||| [TimeSpan:Regular] [FieldValue:PartOfDayNight] tadi ||| FindEnclosed [TimeSpan:Regular] [FieldValue:PartOfDayNight] ||| 1.0
 // e.g. "kuartal pertama tahun ini"
 [TimeSpan:Regular] ||| [FieldValue:Partial] [TimeSpan:Regular] ||| FindEnclosed [TimeSpan:Regular] [FieldValue:Partial] ||| 1.0
 // e.g "tanggal 10"
