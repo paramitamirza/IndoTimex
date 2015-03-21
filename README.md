@@ -34,6 +34,7 @@ IndoTimex contains two main modules:
 Paramita Mirza. 2015. **Recognizing and Normalizing Temporal Expressions in Indonesian Texts**. *(to appear) In Proceedings of the Conference of the Pacific Association for Computational Linguistics (PACLING 2015)*, Bali, Indonesia, May. [pdf]
 
 #####Dataset
+_! Whenever making reference to this resource please cite the paper in the Publication section. !_
 The dataset for development and evaluation phases of the system is available in `dataset/`, comprising 75 news articles taken from www.kompas.com.
 
 ###Demo
