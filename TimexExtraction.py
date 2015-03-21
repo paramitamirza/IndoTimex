@@ -71,16 +71,18 @@ class TimexExtraction:
                 if cat_curr in transition[init_state]:
                     start_idx = i
                     (curr_state, timex_type) = transition[init_state][cat_curr]
+                    if curr_state in final_state: end_idx = i
             else:   #timex has started already
                 if curr_state in transition and cat_curr in transition[curr_state]:
-                    end_idx = i
                     (curr_state, timex_type) = transition[curr_state][cat_curr]
+                    if curr_state in final_state: end_idx = i
                 elif curr_state in transition and tok_curr in transition[curr_state]:
-                    end_idx = i
                     (curr_state, timex_type) = transition[curr_state][tok_curr]
+                    if curr_state in final_state: end_idx = i
                 else:   
-                    if curr_state in final_state:   #timex finished
-                        if end_idx == -1: end_idx = start_idx
+                    if curr_state in final_state and end_idx == -1:   #timex finished
+                        end_idx = start_idx
+                    if start_idx != -1 and end_idx != -1:   #timex finished
                         starts[start_idx] = timex_type
                         ends.append(end_idx)
                         timex[start_idx] = tokens[start_idx:end_idx+1]
@@ -95,7 +97,9 @@ class TimexExtraction:
         temp_file = open("temp", "w")
         for start in timex:
             timex_num += 1
-            temp_file.write(str(start) + "\t" + " ".join(timex[start]) + "\t" + starts[start] + "\t" + dct + "\n")
+            dct_date = dct.split("T")[0]
+            if starts[start] == "DATE": temp_file.write(str(start) + "\t" + " ".join(timex[start]) + "\t" + starts[start] + "\t" + dct_date + "\n")
+            else: temp_file.write(str(start) + "\t" + " ".join(timex[start]) + "\t" + starts[start] + "\t" + dct + "\n")
         temp_file.close()
         with open("log", 'w') as logfile:
             command = "java -jar lib/timenorm-id-0.9.2-jar-with-dependencies.jar lib/id.grammar temp"
@@ -149,6 +153,7 @@ class TimexExtraction:
     def extractTimex(self):
         content = re.findall(r"<%s>(.+?)<%s>" % ('TEXT','/TEXT'), self.timeml, re.DOTALL)[0]
         dct = re.findall(r"<DCT><TIMEX3.+?value=\"(.+?)\"", self.timeml, re.DOTALL)[0]
+        if "T" not in dct: dct += "T00:00:00"
         
         #tokenize content
         tokens = self.__tokenize(content)
